@@ -1,0 +1,63 @@
+# Bỏ qua thư mục ABC
+embeddings/
+enrollment/
+myenv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Byte-compiled / optimized files
+*.pyc
+*.pyd
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Logs
+*.log
+
+# Environment variables
+.env
+*.env
+
+# Django specific
+db.sqlite3
+staticfiles/
+media/
+static/
+
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
+
+# Cache
+*.cache
+.cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# MacOS
+.DS_Store
+
+# Node (nếu dùng frontend)
+node_modules/
+
+# Backup
+*.bak
+*.tmp
+
+# Migrations (tùy chọn nếu bạn không muốn ignore migration)
+# */migrations/*

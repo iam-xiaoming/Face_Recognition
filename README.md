@@ -1,0 +1,1 @@
+Viên kẹo ngọt khiến ta cả đời không quên. Ánh mắt ngươi lúc đó thật kiêu ngạo, in sâu vào tim ta mãi không thể xoá nhoà. Dù sống hay chết vẫn muốn ngươi cả đời ở cạnh, một khắc không lìa,... nhân tình thế thái, vạn vật trong thiên hạ, ta đây không màng đến nữa.
