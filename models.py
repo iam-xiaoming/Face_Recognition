@@ -11,7 +11,7 @@ import shutil
 def load_model(device_name='windows'):
     global device
     if device_name == 'windows':
-        device = torch.device('cuda' if torch.mps.is_available() else "cpu")
+        device = torch.device('cuda' if torch.cuda.is_available() else "cpu")
     else:
         device = torch.device('mps' if torch.mps.is_available() else "cpu")
     
@@ -49,7 +49,7 @@ def average_embeddings(v):
     return _l2normalize(v_mean)
 
 
-DIR = 'embeddings'
+DIR = './embeddings'
 def save(username, v):
     filename = os.path.join(DIR, username)
     if os.path.exists(filename):
