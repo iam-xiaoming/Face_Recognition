@@ -14,18 +14,9 @@ from evaluate import Evaluate
 
 
 
-# ===========================================
+# =========================================================
 
 DEVICE_NAME = 'mac'
-
-
-
-
-
-
-
-
-
 
 
 
@@ -155,9 +146,10 @@ count_failed = 0
 prev_img = None
 run_images = []
 text = "UNK"
+cosine = 0.0
 
 def run(frame, face_info, threshold=0.65):
-    global count_failed, prev_img, run_images, text
+    global count_failed, prev_img, run_images, text, cosine
     aligned_img, conf, bbox, kps = face_info
     x1, y1, x2, y2 = bbox.astype(int)
     h, w = frame.shape[:2]
@@ -170,18 +162,21 @@ def run(frame, face_info, threshold=0.65):
     if face_crop is None or face_crop.size == 0:
         count_failed += 1
         text = "UNK"
+        cosine = 0
         return (False, frame)
     
     if (x2 - x1) < MIN_FACE:
         frame = draw.draw_text(frame, "Face too small", (600, 50), (0, 0, 255))
         count_failed += 1
         text = "UNK"
+        cosine = 0
         return (False, frame)
 
     if register.is_blurry(face_crop):
         frame = draw.draw_text(frame, "Blur!", (600, 50), (0, 0, 255))
         count_failed += 1
         text = "UNK"
+        cosine = 0
         return (False, frame)
     
     if count_failed > 5:
@@ -189,6 +184,7 @@ def run(frame, face_info, threshold=0.65):
         prev_img = None
         run_images = []
         text = "UNK"
+        cosine = 0
         return (False, frame)
             
     aligned_img = cv2.cvtColor(aligned_img, cv2.COLOR_BGR2RGB)
@@ -200,6 +196,7 @@ def run(frame, face_info, threshold=0.65):
         if score < threshold:
             count_failed += 1
             text = "UNK"
+            cosine = 0
             frame = draw.draw_text(frame, "Not the same person in frame-to-frame", (500, 50), (0, 0, 255))
             return (False, frame)
         
@@ -209,9 +206,11 @@ def run(frame, face_info, threshold=0.65):
         t0, t1 = eva.evaluate(run_images)
         if t0:
             text = t1
+            cosine = t0
         else:
             text = "UNK"
             count_failed = 0
+            cosine = 0
             prev_img = None
             run_images = []
             return (False, frame)
@@ -252,8 +251,10 @@ while True:
             frame = draw.draw_text(frame, f"Count failed: {count_failed}", (1080, 100), color=(0, 0, 255))
             if is_cap_next_frame:
                 frame = draw.draw_text(frame, text, (50, 50), (0, 255, 0))
+                frame = draw.draw_text(frame, str(round(cosine, 1)), (50, 75), (0, 255, 0))
             else:
                 frame = draw.draw_text(frame, text, (50, 50), (0, 0, 255))
+                frame = draw.draw_text(frame, str(round(cosine, 1)), (50, 75), (0, 0, 255))
     else:
         count_failed += 1
         
